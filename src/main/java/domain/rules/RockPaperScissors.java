@@ -7,32 +7,17 @@ import domain.Rules;
 public class RockPaperScissors implements Rules {
     @Override
     public Result decide(Move mine, Move theirs) {
-        switch (mine) {
-            case ROCK:
-                switch (theirs) {
-                    case SCISSORS:
-                        return Result.WIN;
-                    case PAPER:
-                        return Result.LOSE;
-                }
-
-            case PAPER:
-                switch (theirs) {
-                    case ROCK:
-                        return Result.WIN;
-                    case SCISSORS:
-                        return Result.LOSE;
-                }
-
-            case SCISSORS:
-                switch (theirs) {
-                    case PAPER:
-                        return Result.WIN;
-                    case ROCK:
-                        return Result.LOSE;
-                }
-        }
-
-        return Result.DRAW;
+        return switch (mine + "-" + theirs) {
+            case "ROCK-ROCK" -> Result.DRAW;
+            case "ROCK-PAPER" -> Result.LOSE;
+            case "ROCK-SCISSORS" -> Result.WIN;
+            case "PAPER-ROCK" -> Result.WIN;
+            case "PAPER-PAPER" -> Result.DRAW;
+            case "PAPER-SCISSORS" -> Result.LOSE;
+            case "SCISSORS-ROCK" -> Result.LOSE;
+            case "SCISSORS-PAPER" -> Result.WIN;
+            case "SCISSORS-SCISSORS" -> Result.DRAW;
+            default -> throw new IllegalStateException("Unexpected value: " + mine + "-" + theirs);
+        };
     }
 }
